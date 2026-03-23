@@ -170,28 +170,40 @@ export default function App() {
     });
   }
 
-  function resetChecklist() {
-    Alert.alert(
-      "Reset checklist",
-      "Are you sure you want to clear all saved checklist progress?",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Reset",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              setCompleted(new Set([]));
-              await AsyncStorage.removeItem(CHECKLIST_STORAGE_KEY);
-              console.log("Checklist reset successfully");
-            } catch (error) {
-              console.log("Reset failed:", error);
-            }
-          },
-        },
-      ]
+function resetChecklist() {
+  const doReset = async () => {
+    try {
+      setCompleted(new Set([]));
+      await AsyncStorage.removeItem(CHECKLIST_STORAGE_KEY);
+      console.log("Checklist reset successfully");
+    } catch (error) {
+      console.log("Reset failed:", error);
+    }
+  };
+
+  if (Platform.OS === "web") {
+    const confirmed = window.confirm(
+      "Are you sure you want to clear all saved checklist progress?"
     );
+    if (confirmed) {
+      doReset();
+    }
+    return;
   }
+
+  Alert.alert(
+    "Reset checklist",
+    "Are you sure you want to clear all saved checklist progress?",
+    [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Reset",
+        style: "destructive",
+        onPress: doReset,
+      },
+    ]
+  );
+}
 
   async function getLocationAndAlerts() {
     setLocationLoading(true);
