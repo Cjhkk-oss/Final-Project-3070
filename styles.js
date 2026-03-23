@@ -429,4 +429,13 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#243447",
   },
+  screenScroll: {
+  flex: 1,
+  backgroundColor: "#f4f7fb",
+},
+screenScrollContent: {
+  padding: 16,
+  paddingBottom: 40,
+  flexGrow: 1,
+},
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { styles } from "../styles";
 import RiskBadge from "../components/RiskBadge";
 import SectionCard from "../components/SectionCard";
@@ -36,7 +36,11 @@ export default function AlertsScreen({
   const quakeRiskLevel = getQuakeRiskLevel(quakes);
 
   return (
-    <View>
+    <ScrollView
+    style={styles.screenScroll}
+    contentContainerStyle={styles.screenScrollContent}
+    showsVerticalScrollIndicator={false}
+  >
       <Text style={styles.sectionTitle}>Alerts & Situational Awareness</Text>
       <Text style={styles.sectionBody}>
         This section combines location, weather, and nearby earthquake activity.
@@ -132,6 +136,6 @@ export default function AlertsScreen({
           </>
         )}
       </SectionCard>
-    </View>
+    </ScrollView>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { styles } from "../styles";
 import ChecklistRow from "../components/ChecklistRow";
 import ProgressBar from "../components/ProgressBar";
@@ -15,7 +15,11 @@ export default function PrepScreen({
   onResetChecklist = () => {},
 }) {
   return (
-    <View>
+      <ScrollView
+    style={styles.screenScroll}
+    contentContainerStyle={styles.screenScrollContent}
+    showsVerticalScrollIndicator={false}
+  >
       <Text style={styles.sectionTitle}>Preparedness Checklist</Text>
       <Text style={styles.sectionBody}>
         Build your emergency kit and track your preparedness progress.
@@ -42,6 +46,6 @@ export default function PrepScreen({
           onToggle={() => onToggleItem(item.id)}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 }

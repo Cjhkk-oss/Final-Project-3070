@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { styles } from "../styles";
 
 export default function ResourcesScreen({
@@ -11,7 +11,11 @@ export default function ResourcesScreen({
   onCallContact = () => {},
 }) {
   return (
-    <View>
+    <ScrollView
+    style={styles.screenScroll}
+    contentContainerStyle={styles.screenScrollContent}
+    showsVerticalScrollIndicator={false}
+  >
       <Text style={styles.sectionTitle}>Resources</Text>
       <Text style={styles.sectionBody}>
         Access emergency numbers and find the nearest shelter.
@@ -56,6 +60,6 @@ export default function ResourcesScreen({
           <Text style={styles.cardBody}>No shelter data available.</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }

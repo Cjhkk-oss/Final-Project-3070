@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from "../styles";
 import GuideModal from "../components/GuideModal";
 
@@ -14,7 +14,12 @@ function GuidesScreen({
   onCloseGuide = () => {},
 }) {
   return (
-    <View>
+    <ScrollView
+    style={styles.screenScroll}
+    contentContainerStyle={styles.screenScrollContent}
+    showsVerticalScrollIndicator={false}
+    keyboardShouldPersistTaps="handled"
+  >
       <Text style={styles.sectionTitle}>Guides & Survival Skills</Text>
       <Text style={styles.sectionBody}>
         Search for concise, step-by-step emergency guidance.
@@ -66,7 +71,7 @@ function GuidesScreen({
           </TouchableOpacity>
         ))
       )}
-    </View>
+    </ScrollView>
   );
 }
 
