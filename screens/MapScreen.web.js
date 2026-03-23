@@ -44,8 +44,8 @@ export default function MapScreen({ coords = null, shelters = [] }) {
     >
       <Text style={styles.sectionTitle}>Shelter Map</Text>
       <Text style={styles.sectionBody}>
-        Interactive map view is best supported on mobile. On web, you can still view the
-        nearest shelter and open it in Google Maps.
+        Interactive map view is best supported on mobile. On web, you can still view
+        the nearest shelter and open it in Google Maps.
       </Text>
 
       {!coords ? (

@@ -10,7 +10,7 @@ import ChatScreen from "../screens/ChatScreen";
 import PrepScreen from "../screens/PrepScreen";
 import AlertsScreen from "../screens/AlertsScreen";
 import GuidesScreen from "../screens/GuidesScreen";
-import MapScreen from "../screens/MapScreen.native";
+import MapScreen from "../screens/MapScreen";
 import ResourcesScreen from "../screens/ResourcesScreen";
 
 import {
