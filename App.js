@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   Linking,
+  Platform,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as Location from "expo-location";
@@ -63,7 +64,7 @@ export default function App() {
   useEffect(() => {
     const initialiseApp = async () => {
       await loadChecklist();
-      getLocationAndAlerts();
+      await getLocationAndAlerts();
     };
 
     initialiseApp();
@@ -170,40 +171,40 @@ export default function App() {
     });
   }
 
-function resetChecklist() {
-  const doReset = async () => {
-    try {
-      setCompleted(new Set([]));
-      await AsyncStorage.removeItem(CHECKLIST_STORAGE_KEY);
-      console.log("Checklist reset successfully");
-    } catch (error) {
-      console.log("Reset failed:", error);
-    }
-  };
+  function resetChecklist() {
+    const doReset = async () => {
+      try {
+        setCompleted(new Set([]));
+        await AsyncStorage.removeItem(CHECKLIST_STORAGE_KEY);
+        console.log("Checklist reset successfully");
+      } catch (error) {
+        console.log("Reset failed:", error);
+      }
+    };
 
-  if (Platform.OS === "web") {
-    const confirmed = window.confirm(
-      "Are you sure you want to clear all saved checklist progress?"
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(
+        "Are you sure you want to clear all saved checklist progress?"
+      );
+      if (confirmed) {
+        doReset();
+      }
+      return;
+    }
+
+    Alert.alert(
+      "Reset checklist",
+      "Are you sure you want to clear all saved checklist progress?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Reset",
+          style: "destructive",
+          onPress: doReset,
+        },
+      ]
     );
-    if (confirmed) {
-      doReset();
-    }
-    return;
   }
-
-  Alert.alert(
-    "Reset checklist",
-    "Are you sure you want to clear all saved checklist progress?",
-    [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Reset",
-        style: "destructive",
-        onPress: doReset,
-      },
-    ]
-  );
-}
 
   async function getLocationAndAlerts() {
     setLocationLoading(true);
@@ -234,19 +235,23 @@ function resetChecklist() {
       setCoords(newCoords);
       setLocationStatus("Location available.");
 
-      try {
-        const places = await Location.reverseGeocodeAsync(newCoords);
-        if (places && places.length > 0) {
-          const place = places[0];
-          const label = [place.name, place.city, place.region]
-            .filter(Boolean)
-            .join(", ");
-          setPlaceLabel(label);
-        } else {
+      if (Platform.OS !== "web") {
+        try {
+          const places = await Location.reverseGeocodeAsync(newCoords);
+          if (places && places.length > 0) {
+            const place = places[0];
+            const label = [place.name, place.city, place.region]
+              .filter(Boolean)
+              .join(", ");
+            setPlaceLabel(label);
+          } else {
+            setPlaceLabel("");
+          }
+        } catch (error) {
+          console.log("Reverse geocode failed:", error);
           setPlaceLabel("");
         }
-      } catch (error) {
-        console.log("Reverse geocode failed:", error);
+      } else {
         setPlaceLabel("");
       }
 
