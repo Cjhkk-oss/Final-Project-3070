@@ -9,22 +9,30 @@ import {
 } from "react-native";
 import { styles } from "../styles";
 
-export default function ChatScreen() {
+export default function ChatScreen({
+  weatherData = null,
+  quakes = [],
+  nearestShelter = null,
+  placeLabel = "",
+}) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
     {
-      text: "Hi, I’m your disaster preparedness assistant. Ask me about floods, earthquakes, storms, fire safety, shelters, or emergency kits.",
+      text: "Hi, I’m your disaster preparedness assistant. Ask me about floods, earthquakes, storms, fire safety, shelters, weather, or emergency kits.",
       bot: true,
     },
   ]);
   const [loading, setLoading] = useState(false);
 
-  async function handleSend() {
-    if (!input.trim() || loading) return;
+  const quickQuestions = [
+    "How do I prepare for a flood?",
+    "What should be in an emergency kit?",
+    "Is there any earthquake risk nearby?",
+    "Where is the nearest shelter?",
+  ];
 
-    const userText = input.trim();
+  async function sendMessage(userText) {
     setMessages((prev) => [...prev, { text: userText, bot: false }]);
-    setInput("");
     setLoading(true);
 
     try {
@@ -33,7 +41,15 @@ export default function ChatScreen() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userText }),
+        body: JSON.stringify({
+          message: userText,
+          context: {
+            weatherData,
+            quakes,
+            nearestShelter,
+            placeLabel,
+          },
+        }),
       });
 
       const data = await response.json();
@@ -58,12 +74,37 @@ export default function ChatScreen() {
     }
   }
 
+  async function handleSend() {
+    if (!input.trim() || loading) return;
+
+    const userText = input.trim();
+    setInput("");
+    await sendMessage(userText);
+  }
+
+  async function handleQuickQuestion(question) {
+    if (loading) return;
+    await sendMessage(question);
+  }
+
   return (
     <View style={styles.screenPad}>
       <Text style={styles.sectionTitle}>Safety Assistant</Text>
       <Text style={styles.sectionBody}>
         Ask quick questions about emergency preparation and response.
       </Text>
+
+      <View style={styles.quickQuestionsWrap}>
+        {quickQuestions.map((question, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.quickQuestionBtn}
+            onPress={() => handleQuickQuestion(question)}
+          >
+            <Text style={styles.quickQuestionText}>{question}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
       <ScrollView
         style={styles.chatMessages}

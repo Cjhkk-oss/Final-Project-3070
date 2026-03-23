@@ -10,7 +10,7 @@ import ChatScreen from "../screens/ChatScreen";
 import PrepScreen from "../screens/PrepScreen";
 import AlertsScreen from "../screens/AlertsScreen";
 import GuidesScreen from "../screens/GuidesScreen";
-import MapScreen from "../screens/MapScreen";
+import MapScreen from "../screens/MapScreen.native";
 import ResourcesScreen from "../screens/ResourcesScreen";
 
 import {
@@ -432,7 +432,16 @@ export default function AppTabs() {
         )}
       </Tab.Screen>
 
-      <Tab.Screen name="Assistant" component={ChatScreen} />
+      <Tab.Screen name="Assistant">
+      {(props) => (
+      <ChatScreen
+       {...props}
+         weatherData={weatherData}
+         quakes={quakes}
+         nearestShelter={nearestShelter}
+       />
+       )}
+      </Tab.Screen>
 
       <Tab.Screen name="Resources">
         {(props) => (

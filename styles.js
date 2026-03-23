@@ -498,4 +498,24 @@ chatInput: {
   fontSize: 14,
   minHeight: 50,
 },
+quickQuestionsWrap: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: 8,
+  marginBottom: 12,
+},
+
+quickQuestionBtn: {
+  backgroundColor: "#eef2f7",
+  paddingHorizontal: 12,
+  paddingVertical: 8,
+  borderRadius: 20,
+  borderWidth: 1,
+  borderColor: "#d9e1ec",
+},
+
+quickQuestionText: {
+  fontSize: 12,
+  color: "#2f6fed",
+},
 });
