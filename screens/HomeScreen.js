@@ -42,25 +42,6 @@ export default function HomeScreen({
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.card}
-        onPress={() => navigation.navigate("Resources")}
-      >
-        <Text style={styles.cardTitle}>Nearest Shelter</Text>
-        <Text style={styles.cardBody}>
-          {nearestShelter
-            ? `${nearestShelter.name} • ${nearestShelter.distanceKm.toFixed(1)} km away`
-            : "Enable location to view nearest shelter."}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.primaryButton, { marginTop: 8 }]}
-        onPress={openEmergencyMode}
-      >
-        <Text style={styles.primaryButtonText}>Open Emergency Mode</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
   style={styles.card}
   onPress={() => navigation.navigate("Map")}
 >
@@ -71,6 +52,14 @@ export default function HomeScreen({
       : "Enable location to view nearest shelter."}
        </Text>
        </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.primaryButton, { marginTop: 8 }]}
+        onPress={openEmergencyMode}
+      >
+        <Text style={styles.primaryButtonText}>Open Emergency Mode</Text>
+      </TouchableOpacity>
+
     </ScrollView>
   );
 }
