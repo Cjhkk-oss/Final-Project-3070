@@ -1,7 +1,20 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "../styles";
-import { formatRelativeTime } from "../utils/helpers";
+import RiskBadge from "../components/RiskBadge";
+import SectionCard from "../components/SectionCard";
+import {
+  getWeatherRiskLevel,
+  formatRelativeTime,
+} from "../utils/helpers";
+
+function getQuakeRiskLevel(quakes) {
+  if (!quakes || quakes.length === 0) return "Low";
+  const strongest = Math.max(...quakes.map((q) => q.mag || 0));
+  if (strongest >= 5) return "High";
+  if (strongest >= 3) return "Moderate";
+  return "Low";
+}
 
 export default function AlertsScreen({
   coords,
@@ -19,6 +32,9 @@ export default function AlertsScreen({
   quakeSummary,
   fmt,
 }) {
+  const weatherRiskLevel = getWeatherRiskLevel(weatherData);
+  const quakeRiskLevel = getQuakeRiskLevel(quakes);
+
   return (
     <View>
       <Text style={styles.sectionTitle}>Alerts & Situational Awareness</Text>
@@ -26,18 +42,15 @@ export default function AlertsScreen({
         This section combines location, weather, and nearby earthquake activity.
       </Text>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Current Location</Text>
+      <SectionCard title="Current Location">
         <Text style={styles.cardBody}>{locationStatus}</Text>
         {coords ? (
-          <>
-            <Text style={styles.cardBody}>
-              {placeLabel ||
-                `Latitude ${coords.latitude.toFixed(5)}, Longitude ${coords.longitude.toFixed(5)}`}
-            </Text>
-          </>
+          <Text style={styles.cardBody}>
+            {placeLabel ||
+              `Latitude ${coords.latitude.toFixed(5)}, Longitude ${coords.longitude.toFixed(5)}`}
+          </Text>
         ) : null}
-      </View>
+      </SectionCard>
 
       <TouchableOpacity style={styles.primaryButton} onPress={onRefresh}>
         <Text style={styles.primaryButtonText}>
@@ -45,41 +58,64 @@ export default function AlertsScreen({
         </Text>
       </TouchableOpacity>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Weather</Text>
+      <SectionCard
+        title="Weather"
+        subtitle="Live local weather conditions and interpreted risk level."
+      >
         {weatherLoading ? (
           <Text style={styles.cardBody}>Loading weather...</Text>
         ) : weatherError ? (
           <Text style={styles.errorText}>{weatherError}</Text>
         ) : weatherData ? (
           <>
-            <Text style={styles.cardBody}>
-              Temperature: {fmt(weatherData.temperature_2m)}°C
-            </Text>
-            <Text style={styles.cardBody}>
-              Rainfall: {fmt(weatherData.precipitation)} mm
-            </Text>
-            <Text style={styles.cardBody}>
-              Wind speed: {fmt(weatherData.wind_speed_10m)} km/h
-            </Text>
+            <RiskBadge level={weatherRiskLevel} />
+            <View style={styles.metricGrid}>
+              <View style={styles.metricCard}>
+                <Text style={styles.metricLabel}>Temperature</Text>
+                <Text style={styles.metricValue}>
+                  {fmt(weatherData.temperature_2m)}°C
+                </Text>
+              </View>
+
+              <View style={styles.metricCard}>
+                <Text style={styles.metricLabel}>Rainfall</Text>
+                <Text style={styles.metricValue}>
+                  {fmt(weatherData.precipitation)} mm
+                </Text>
+              </View>
+
+              <View style={styles.metricCard}>
+                <Text style={styles.metricLabel}>Wind Speed</Text>
+                <Text style={styles.metricValue}>
+                  {fmt(weatherData.wind_speed_10m)} km/h
+                </Text>
+              </View>
+            </View>
+
             <Text style={styles.summaryHighlight}>{weatherSummary}</Text>
           </>
         ) : (
           <Text style={styles.cardBody}>No weather data available.</Text>
         )}
-      </View>
+      </SectionCard>
 
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Nearby Earthquake Activity</Text>
+      <SectionCard
+        title="Nearby Earthquake Activity"
+        subtitle="Recent nearby earthquake events based on your current location."
+      >
         {quakeLoading ? (
           <Text style={styles.cardBody}>Loading earthquake feed...</Text>
         ) : quakeError ? (
           <Text style={styles.errorText}>{quakeError}</Text>
         ) : (
           <>
+            <RiskBadge level={quakeRiskLevel} />
             <Text style={styles.summaryHighlight}>{quakeSummary}</Text>
+
             {quakes.length === 0 ? (
-              <Text style={styles.cardBody}>No recent nearby earthquakes found.</Text>
+              <Text style={styles.cardBody}>
+                No recent nearby earthquakes found.
+              </Text>
             ) : (
               quakes.map((quake) => (
                 <View key={quake.id} style={styles.alertRow}>
@@ -87,14 +123,15 @@ export default function AlertsScreen({
                     M{fmt(quake.mag)} • {quake.place}
                   </Text>
                   <Text style={styles.cardBody}>
-                    {fmt(quake.distanceKm)} km away • {formatRelativeTime(quake.time)}
+                    {fmt(quake.distanceKm)} km away •{" "}
+                    {formatRelativeTime(quake.time)}
                   </Text>
                 </View>
               ))
             )}
           </>
         )}
-      </View>
+      </SectionCard>
     </View>
   );
 }

@@ -182,6 +182,17 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e4e8ef",
   },
+  sectionCard: {
+    shadowColor: "#10213a",
+    shadowOpacity: 0.04,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  sectionCardSubtitle: {
+    marginBottom: 10,
+    color: "#64748a",
+  },
   cardTitle: {
     fontSize: 16,
     fontWeight: "700",
@@ -205,6 +216,29 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#172033",
     marginBottom: 4,
+  },
+  metricGrid: {
+    marginTop: 8,
+    gap: 10,
+  },
+  metricCard: {
+    backgroundColor: "#f8fbff",
+    borderRadius: 12,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#dbe7ff",
+  },
+  metricLabel: {
+    fontSize: 12,
+    color: "#64748a",
+    marginBottom: 4,
+    fontWeight: "600",
+    textTransform: "uppercase",
+  },
+  metricValue: {
+    fontSize: 18,
+    color: "#172033",
+    fontWeight: "700",
   },
   searchInput: {
     backgroundColor: "#ffffff",
@@ -300,5 +334,99 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: "#415066",
     lineHeight: 20,
+  },
+
+  welcomeWrap: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+  },
+  welcomeCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 22,
+    padding: 24,
+  },
+  welcomeTitle: {
+    fontSize: 30,
+    fontWeight: "800",
+    color: "#172033",
+    marginBottom: 12,
+  },
+  welcomeBody: {
+    fontSize: 16,
+    color: "#4e5c70",
+    lineHeight: 24,
+    marginBottom: 20,
+  },
+  screenPad: {
+    flex: 1,
+    backgroundColor: "#f4f7fb",
+    padding: 24,
+    justifyContent: "center",
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 99,
+    backgroundColor: "#d4dbe7",
+  },
+  dotActive: {
+    backgroundColor: "#2f6fed",
+  },
+  emergencyWrap: {
+    flex: 1,
+    backgroundColor: "#fff5f5",
+  },
+  emergencyTitle: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: "#8f1010",
+    marginBottom: 8,
+  },
+  emergencyText: {
+    fontSize: 15,
+    color: "#6d2a2a",
+    marginBottom: 16,
+    lineHeight: 22,
+  },
+  emergencyCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#f0caca",
+  },
+  dangerButton: {
+    backgroundColor: "#c62828",
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  dangerButtonText: {
+    color: "#ffffff",
+    fontWeight: "800",
+    fontSize: 15,
+  },
+  riskBadge: {
+    alignSelf: "flex-start",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    marginBottom: 10,
+  },
+  riskLow: {
+    backgroundColor: "#dff4e7",
+  },
+  riskModerate: {
+    backgroundColor: "#fff1cc",
+  },
+  riskHigh: {
+    backgroundColor: "#ffd6d6",
+  },
+  riskBadgeText: {
+    fontWeight: "700",
+    color: "#243447",
   },
 });

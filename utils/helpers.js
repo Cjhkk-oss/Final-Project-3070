@@ -86,3 +86,14 @@ export function formatRelativeTime(timestamp) {
   const days = Math.floor(hours / 24);
   return `${days} day(s) ago`;
 }
+
+export function getWeatherRiskLevel(weatherData) {
+  if (!weatherData) return "Low";
+
+  const rain = weatherData.precipitation ?? 0;
+  const wind = weatherData.wind_speed_10m ?? 0;
+
+  if (rain >= 20 || wind >= 40) return "High";
+  if (rain > 0 || wind > 20) return "Moderate";
+  return "Low";
+}
