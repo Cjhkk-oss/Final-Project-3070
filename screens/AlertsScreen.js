@@ -17,20 +17,20 @@ function getQuakeRiskLevel(quakes) {
 }
 
 export default function AlertsScreen({
-  coords,
-  placeLabel,
-  locationStatus,
-  locationLoading,
-  weatherData,
-  weatherLoading,
-  weatherError,
-  quakes,
-  quakeLoading,
-  quakeError,
-  onRefresh,
-  weatherSummary,
-  quakeSummary,
-  fmt,
+  coords = null,
+  placeLabel = "",
+  locationStatus = "Location unavailable.",
+  locationLoading = false,
+  weatherData = null,
+  weatherLoading = false,
+  weatherError = "",
+  quakes = [],
+  quakeLoading = false,
+  quakeError = "",
+  onRefresh = () => {},
+  weatherSummary = "",
+  quakeSummary = "",
+  fmt = (v) => v,
 }) {
   const weatherRiskLevel = getWeatherRiskLevel(weatherData);
   const quakeRiskLevel = getQuakeRiskLevel(quakes);

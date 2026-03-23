@@ -1,14 +1,24 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Linking, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { styles } from "../styles";
 
 export default function EmergencyModeScreen() {
+  const navigation = useNavigation();
+
   const callNow = (number) => {
     Linking.openURL(`tel:${number}`).catch(() => {});
   };
 
   return (
     <ScrollView style={styles.emergencyWrap} contentContainerStyle={styles.contentContainer}>
+      <TouchableOpacity
+        style={styles.secondaryButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.secondaryButtonText}>← Back</Text>
+      </TouchableOpacity>
+
       <Text style={styles.emergencyTitle}>Emergency Mode</Text>
       <Text style={styles.emergencyText}>
         Fast access to critical actions during a high-stress situation.

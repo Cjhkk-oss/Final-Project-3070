@@ -3,12 +3,12 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "../styles";
 
 export default function ResourcesScreen({
-  emergencyContacts,
-  coords,
-  placeLabel,
-  nearestShelter,
-  onOpenMap,
-  onCallContact,
+  emergencyContacts = [],
+  coords = null,
+  placeLabel = "",
+  nearestShelter = null,
+  onOpenMap = () => {},
+  onCallContact = () => {},
 }) {
   return (
     <View>

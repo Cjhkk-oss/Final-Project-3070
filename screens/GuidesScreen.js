@@ -4,11 +4,14 @@ import { styles } from "../styles";
 import GuideModal from "../components/GuideModal";
 
 function GuidesScreen({
-  search,
-  onChangeSearch,
-  disasterGuides,
-  survivalSkills,
-  onOpenGuide,
+  search = "",
+  onChangeSearch = () => {},
+  disasterGuides = [],
+  survivalSkills = [],
+  onOpenGuide = () => {},
+  selectedGuide = null,
+  selectedGuideType = "guide",
+  onCloseGuide = () => {},
 }) {
   return (
     <View>
@@ -67,8 +70,11 @@ function GuidesScreen({
   );
 }
 
-GuidesScreen.ModalWrapper = function ModalWrapper({ guide, type, onClose }) {
+GuidesScreen.ModalWrapper = function ModalWrapper({
+  guide,
+  type,
+  onClose,
+}) {
   return <GuideModal visible={!!guide} guide={guide} type={type} onClose={onClose} />;
 };
-
 export default GuidesScreen;

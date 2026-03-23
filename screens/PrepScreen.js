@@ -5,14 +5,14 @@ import ChecklistRow from "../components/ChecklistRow";
 import ProgressBar from "../components/ProgressBar";
 
 export default function PrepScreen({
-  kitItems,
-  completed,
-  onToggleItem,
-  earnedPoints,
-  totalPoints,
-  completionPercentage,
-  badge,
-  onResetChecklist,
+  kitItems = [],
+  completed = new Set(),
+  onToggleItem = () => {},
+  earnedPoints = 0,
+  totalPoints = 0,
+  completionPercentage = 0,
+  badge = "No badge yet",
+  onResetChecklist = () => {},
 }) {
   return (
     <View>
