@@ -59,6 +59,18 @@ export default function HomeScreen({
       >
         <Text style={styles.primaryButtonText}>Open Emergency Mode</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+  style={styles.card}
+  onPress={() => navigation.navigate("Map")}
+>
+       <Text style={styles.cardTitle}>Nearest Shelter</Text>
+       <Text style={styles.cardBody}>
+    {nearestShelter
+      ? `${nearestShelter.name} • ${nearestShelter.distanceKm.toFixed(1)} km away`
+      : "Enable location to view nearest shelter."}
+       </Text>
+       </TouchableOpacity>
     </ScrollView>
   );
 }

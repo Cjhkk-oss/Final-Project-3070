@@ -6,9 +6,11 @@ import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import HomeScreen from "../screens/HomeScreen";
+import ChatScreen from "../screens/ChatScreen";
 import PrepScreen from "../screens/PrepScreen";
 import AlertsScreen from "../screens/AlertsScreen";
 import GuidesScreen from "../screens/GuidesScreen";
+import MapScreen from "../screens/MapScreen";
 import ResourcesScreen from "../screens/ResourcesScreen";
 
 import {
@@ -343,8 +345,10 @@ export default function AppTabs() {
           const icons = {
             Home: "home-outline",
             Prep: "checkbox-outline",
+            Map: "map-outline",
             Alerts: "warning-outline",
             Guides: "book-outline",
+            Assistant: "chatbubble-ellipses-outline",
             Resources: "location-outline",
           };
           return <Ionicons name={icons[route.name]} size={size} color={color} />;
@@ -379,6 +383,16 @@ export default function AppTabs() {
           />
         )}
       </Tab.Screen>
+
+      <Tab.Screen name="Map">
+        {(props) => (
+         <MapScreen
+         {...props}
+         coords={coords}
+         shelters={SHELTERS}
+        />
+         )}
+         </Tab.Screen>
 
       <Tab.Screen name="Alerts">
         {(props) => (
@@ -417,6 +431,8 @@ export default function AppTabs() {
           />
         )}
       </Tab.Screen>
+
+      <Tab.Screen name="Assistant" component={ChatScreen} />
 
       <Tab.Screen name="Resources">
         {(props) => (

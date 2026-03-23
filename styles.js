@@ -438,4 +438,64 @@ screenScrollContent: {
   paddingBottom: 40,
   flexGrow: 1,
 },
+mapScreenWrap: {
+  flex: 1,
+  backgroundColor: "#f4f7fb",
+},
+map: {
+  flex: 1,
+  minHeight: 420,
+},
+mapInfoCard: {
+  backgroundColor: "#ffffff",
+  padding: 16,
+  borderTopLeftRadius: 18,
+  borderTopRightRadius: 18,
+  borderWidth: 1,
+  borderColor: "#e4e8ef",
+},
+chatMessages: {
+  flex: 1,
+  marginBottom: 12,
+},
+chatMessagesContent: {
+  paddingBottom: 12,
+  gap: 10,
+},
+chatBubble: {
+  maxWidth: "82%",
+  padding: 12,
+  borderRadius: 14,
+},
+chatBubbleBot: {
+  alignSelf: "flex-start",
+  backgroundColor: "#eef2f7",
+},
+chatBubbleUser: {
+  alignSelf: "flex-end",
+  backgroundColor: "#2f6fed",
+},
+chatBubbleText: {
+  fontSize: 14,
+  lineHeight: 20,
+},
+chatBubbleTextBot: {
+  color: "#172033",
+},
+chatBubbleTextUser: {
+  color: "#ffffff",
+},
+chatInputRow: {
+  gap: 10,
+},
+chatInput: {
+  backgroundColor: "#ffffff",
+  borderWidth: 1,
+  borderColor: "#d9e1ec",
+  borderRadius: 12,
+  paddingHorizontal: 14,
+  paddingVertical: 12,
+  fontSize: 14,
+  minHeight: 50,
+},
 });
