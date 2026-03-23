@@ -51,6 +51,10 @@ app.post("/chat", async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
+
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Chat backend running on http://localhost:${port}`);
