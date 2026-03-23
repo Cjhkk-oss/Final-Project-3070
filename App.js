@@ -41,6 +41,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("prep");
 
   const [completed, setCompleted] = useState(new Set());
+  const [hasLoadedChecklist, setHasLoadedChecklist] = useState(false);
+
   const [guideSearch, setGuideSearch] = useState("");
   const [selectedGuide, setSelectedGuide] = useState(null);
   const [selectedGuideType, setSelectedGuideType] = useState("guide");
@@ -59,13 +61,30 @@ export default function App() {
   const [quakeError, setQuakeError] = useState("");
 
   useEffect(() => {
-    loadChecklist();
-    getLocationAndAlerts();
+    const initialiseApp = async () => {
+      await loadChecklist();
+      getLocationAndAlerts();
+    };
+
+    initialiseApp();
   }, []);
 
   useEffect(() => {
+    if (!hasLoadedChecklist) return;
+
+    const saveChecklist = async () => {
+      try {
+        await AsyncStorage.setItem(
+          CHECKLIST_STORAGE_KEY,
+          JSON.stringify([...completed])
+        );
+      } catch (error) {
+        console.log("Failed to save checklist:", error);
+      }
+    };
+
     saveChecklist();
-  }, [completed]);
+  }, [completed, hasLoadedChecklist]);
 
   const totalPoints = useMemo(
     () => KIT_ITEMS.reduce((sum, item) => sum + item.points, 0),
@@ -125,6 +144,7 @@ export default function App() {
   async function loadChecklist() {
     try {
       const saved = await AsyncStorage.getItem(CHECKLIST_STORAGE_KEY);
+
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
@@ -133,17 +153,8 @@ export default function App() {
       }
     } catch (error) {
       console.log("Failed to load checklist:", error);
-    }
-  }
-
-  async function saveChecklist() {
-    try {
-      await AsyncStorage.setItem(
-        CHECKLIST_STORAGE_KEY,
-        JSON.stringify([...completed])
-      );
-    } catch (error) {
-      console.log("Failed to save checklist:", error);
+    } finally {
+      setHasLoadedChecklist(true);
     }
   }
 
@@ -159,7 +170,7 @@ export default function App() {
     });
   }
 
-  async function resetChecklist() {
+  function resetChecklist() {
     Alert.alert(
       "Reset checklist",
       "Are you sure you want to clear all saved checklist progress?",
@@ -169,11 +180,12 @@ export default function App() {
           text: "Reset",
           style: "destructive",
           onPress: async () => {
-            setCompleted(new Set());
             try {
+              setCompleted(new Set([]));
               await AsyncStorage.removeItem(CHECKLIST_STORAGE_KEY);
+              console.log("Checklist reset successfully");
             } catch (error) {
-              console.log("Failed to clear storage:", error);
+              console.log("Reset failed:", error);
             }
           },
         },
